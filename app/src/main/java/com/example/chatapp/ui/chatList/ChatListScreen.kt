@@ -28,12 +28,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.chatapp.ui.app_ui_model.ChatItem
+import com.example.chatapp.ui.app_ui_model.ProfileUiModel
 import com.example.chatapp.ui.theme.ChatAppTheme
 
 
 @Composable
-fun ChatListScreen(chatItems: List<ChatItem>, onProfileClick: () -> Unit) {
-    when (chatItems) {
+fun ChatListScreen(uiState: ChatListViewModel.UiState, onProfileClick: () -> Unit) {
+    when (uiState.usersList) {
         emptyList<ChatItem>() -> Scaffold(topBar = {
             Row {
                 IconButton(
@@ -74,7 +75,7 @@ fun ChatListScreen(chatItems: List<ChatItem>, onProfileClick: () -> Unit) {
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                items(chatItems) { chatItem ->
+                items(uiState.usersList) { chatItem ->
                     ChatListItem(chatItem = chatItem)
                 }
             }
@@ -83,7 +84,7 @@ fun ChatListScreen(chatItems: List<ChatItem>, onProfileClick: () -> Unit) {
 }
 
 @Composable
-private fun ChatListItem(chatItem: ChatItem) {
+private fun ChatListItem(chatItem: ProfileUiModel) {
     Row(
         modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
     ) {
@@ -95,11 +96,11 @@ private fun ChatListItem(chatItem: ChatItem) {
         Spacer(modifier = Modifier.width(16.dp))
         Column {
             Text(
-                text = chatItem.senderName,
+                text = chatItem.fullName,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = chatItem.message,
+                text = "Тут будет ласт сообщение",
             )
         }
     }
@@ -110,12 +111,12 @@ private fun ChatListItem(chatItem: ChatItem) {
 @Composable
 private fun PreviewChatScreen() {
     val chatItems = listOf(
-        ChatItem("John Doe", "Hello there!", Icons.Rounded.AccountCircle),
-        ChatItem("Jane Smith", "Hi, where am i?", Icons.Rounded.AccountCircle),
-        ChatItem("Alex Johnson", "Far from home...!", Icons.Rounded.AccountCircle)
+        ProfileUiModel("John Doe", "Hello there!", ""),
+        ProfileUiModel("Jane Smith", "Hi, where am i?", ""),
+        ProfileUiModel("Alex Johnson", "Far from home...!", "")
     )
     ChatAppTheme {
-        ChatListScreen(chatItems = chatItems, onProfileClick = {})
+        ChatListScreen(ChatListViewModel.UiState(usersList = chatItems), onProfileClick = {})
     }
 }
 
@@ -123,6 +124,6 @@ private fun PreviewChatScreen() {
 @Composable
 private fun PreviewEmptyChatScreen() {
     ChatAppTheme {
-        ChatListScreen(chatItems = emptyList(), onProfileClick = {})
+        ChatListScreen(ChatListViewModel.UiState(), onProfileClick = {})
     }
 }

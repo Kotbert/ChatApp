@@ -76,4 +76,6 @@ dependencies {
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.androidx.multidex)
 
+    implementation(libs.androidx.lifecycle.runtime.compose)
+
 }
