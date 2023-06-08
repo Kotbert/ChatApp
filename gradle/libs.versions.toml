@@ -1,9 +1,11 @@
 [versions]
 accompanist = "0.31.2-alpha"
-agp = "8.2.0-alpha06"
+agp = "8.2.0-alpha07"
 firebase-auth = "22.0.0"
 firebase-core = "21.1.1"
 google-services = "4.3.15"
+koin-android = "3.4.0"
+koin-compose = "3.4.3"
 kotlin = "1.8.10"
 core-ktx = "1.10.1"
 junit = "4.13.2"
@@ -19,6 +21,7 @@ multidex = "2.0.1"
 [libraries]
 accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle-runtime-ktx" }
 androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebase-auth" }
@@ -27,6 +30,11 @@ google-services = { module = "com.google.gms:google-services", version.ref = "go
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin-android" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin-android" }
+koin-android-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin-android" }
+koin-workmanager = { group = "io.insert-koin", name = "koin-androidx-workmanager", version.ref = "koin-android" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin-compose" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }

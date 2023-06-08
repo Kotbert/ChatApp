@@ -39,8 +39,8 @@ fun LoginScreen(
     onLoginClicked: (login: String, password: String) -> Unit,
     onCreteAccount: (username: String, password: String) -> Unit
 ) {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("kot") }
+    var password by remember { mutableStateOf("12345") }
 
     Scaffold(containerColor = Color.Blue, topBar = {
         Column(

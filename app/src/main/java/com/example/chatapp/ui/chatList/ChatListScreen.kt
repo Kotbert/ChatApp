@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -27,27 +28,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.chatapp.ui.app_ui_model.ChatItem
 import com.example.chatapp.ui.app_ui_model.ProfileUiModel
 import com.example.chatapp.ui.theme.ChatAppTheme
 
 
 @Composable
-fun ChatListScreen(uiState: ChatListViewModel.UiState, onProfileClick: () -> Unit) {
-    when (uiState.usersList) {
-        emptyList<ChatItem>() -> Scaffold(topBar = {
-            Row {
-                IconButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.End),
-                    onClick = onProfileClick
-                ) {
-                    Icon(imageVector = Icons.Rounded.AccountCircle, contentDescription = null)
-                }
+fun ChatListScreen(
+    uiState: ChatListViewModel.UiState, onProfileClick: () -> Unit, onRefresh: () -> Unit
+) {
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        Row {
+            IconButton(
+                onClick = onProfileClick
+            ) {
+                Icon(imageVector = Icons.Rounded.AccountCircle, contentDescription = null)
             }
-        }) { innerPadding ->
-            Box(
+            IconButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.End),
+                onClick = onRefresh
+            ) {
+                Icon(imageVector = Icons.Rounded.Refresh, contentDescription = null)
+            }
+        }
+    }) { innerPadding ->
+        when {
+            uiState.isLoading -> Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Список загружается")
+            }
+
+            uiState.usersList.isEmpty() -> Box(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize(),
@@ -55,21 +71,8 @@ fun ChatListScreen(uiState: ChatListViewModel.UiState, onProfileClick: () -> Uni
             ) {
                 Text(text = "Список пуст")
             }
-        }
 
-        else -> Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-            Row {
-                IconButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.End),
-                    onClick = onProfileClick
-                ) {
-                    Icon(imageVector = Icons.Rounded.AccountCircle, contentDescription = null)
-                }
-            }
-        }) { innerPadding ->
-            LazyColumn(
+            else -> LazyColumn(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
@@ -116,7 +119,10 @@ private fun PreviewChatScreen() {
         ProfileUiModel("Alex Johnson", "Far from home...!", "")
     )
     ChatAppTheme {
-        ChatListScreen(ChatListViewModel.UiState(usersList = chatItems), onProfileClick = {})
+        ChatListScreen(
+            ChatListViewModel.UiState(usersList = chatItems),
+            onProfileClick = {}
+        ) {}
     }
 }
 
@@ -124,6 +130,6 @@ private fun PreviewChatScreen() {
 @Composable
 private fun PreviewEmptyChatScreen() {
     ChatAppTheme {
-        ChatListScreen(ChatListViewModel.UiState(), onProfileClick = {})
+        ChatListScreen(ChatListViewModel.UiState(), onProfileClick = {}) {}
     }
 }

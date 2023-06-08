@@ -77,5 +77,12 @@ dependencies {
     implementation(libs.androidx.multidex)
 
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    implementation(libs.koin.android)
+    implementation(libs.koin.core)
+    implementation(libs.koin.workmanager)
+    implementation(libs.koin.android.navigation)
+    implementation(libs.koin.compose)
 
 }

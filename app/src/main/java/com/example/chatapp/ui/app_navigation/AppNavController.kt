@@ -1,9 +1,7 @@
 package com.example.chatapp.ui.app_navigation
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,13 +16,13 @@ import com.example.chatapp.ui.login.LoginScreen
 import com.example.chatapp.ui.login.LoginViewModel
 import com.example.chatapp.ui.profile.ProfileScreen
 import com.example.chatapp.ui.profile.ProfileViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ChatApp(navController: NavHostController) {
-    var xxxx = 0
     NavHost(navController, startDestination = ChatScreens.LOGIN_SCREEN) {
         composable(ChatScreens.LOGIN_SCREEN) {
-            val viewModel = LoginViewModel(LocalContext.current)
+            val viewModel: LoginViewModel = koinViewModel()
             val context = LocalContext.current
             val authentication by viewModel.authEvent.collectAsStateWithLifecycle(NotGetAccess)
             DisposableEffect(authentication) {
@@ -48,19 +46,16 @@ fun ChatApp(navController: NavHostController) {
             })
         }
         composable(ChatScreens.CHATS_LIST) {
-            val viewModel = ChatListViewModel(LocalContext.current)
+            val viewModel: ChatListViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-            val context = LocalContext.current
-            LaunchedEffect(Unit) {
-                xxxx++
-                Toast.makeText(context, "$xxxx", Toast.LENGTH_SHORT).show()
-            }
-            ChatListScreen(uiState = uiState,
-                onProfileClick = { navController.navigate(ChatScreens.PROFILE_SCREEN) })
+            ChatListScreen(
+                uiState = uiState,
+                onProfileClick = { navController.navigate(ChatScreens.PROFILE_SCREEN) }
+            ) { viewModel.getUsersList() }
         }
         composable(ChatScreens.CHAT_MESSAGE) {}
         composable(ChatScreens.PROFILE_SCREEN) {
-            val viewModel = ProfileViewModel(context = LocalContext.current)
+            val viewModel: ProfileViewModel = koinViewModel()
             val uiState by viewModel.uiState.collectAsStateWithLifecycle()
             val authentication by viewModel.authEvent.collectAsStateWithLifecycle(GetAccess)
             DisposableEffect(authentication) {
